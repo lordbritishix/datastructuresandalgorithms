@@ -10,14 +10,47 @@ import java.util.StringTokenizer;
 public class Sorting {
     private static Random random = new Random();
 
+    /**
+     * numbers before m1 are less than x
+     * numbers after m2 are greater than x
+     * numbers between m1 and m2 are equal to x
+     */
     public int[] partition3(long[] a, int l, int r) {
-      //write your code here
+        int m1 = l;
+        int m2 = r;
 
+        // this is the pivot
+        long x = a[l];
 
-      int m1 = l;
-      int m2 = r;
-      int[] m = {m1, m2};
-      return m;
+        // skip the pivot
+        int i = l + 1;
+
+        while (i <= m2) {
+            if (a[i] < x) {
+                // if x < pivot, put it behind m1
+                swap(a, m1, i);
+                m1++;
+                i++;
+            } else if (a[i] > x) {
+                // if x > pivot, move it behind m2
+                swap(a, i, m2);
+                m2--;
+            } else {
+                i++;
+            }
+        }
+
+        return new int[]{m1, m2};
+    }
+
+    private void swap(long[] a, int i, int j) {
+        if (i == j) {
+            return;
+        }
+
+        long t = a[i];
+        a[i] = a[j];
+        a[j] = t;
     }
 
     public int partition2(long[] a, int l, int r) {
@@ -26,14 +59,10 @@ public class Sorting {
         for (int i = l + 1; i <= r; i++) {
             if (a[i] <= x) {
                 j++;
-                long t = a[i];
-                a[i] = a[j];
-                a[j] = t;
+                swap(a, i, j);
             }
         }
-        long t = a[l];
-        a[l] = a[j];
-        a[j] = t;
+        swap(a, l, j);
         return j;
     }
 
@@ -45,10 +74,44 @@ public class Sorting {
         long t = a[l];
         a[l] = a[k];
         a[k] = t;
+
         //use partition3
-        int m = partition2(a, l, r);
-        randomizedQuickSort(a, l, m - 1);
-        randomizedQuickSort(a, m + 1, r);
+        int[] m = partition3(a, l, r);
+        randomizedQuickSort(a, l, m[0] - 1);
+        randomizedQuickSort(a, m[1] + 1, r);
+
+        // partition2
+//        int m = partition2(a, l, r);
+//        randomizedQuickSort(a, l, m - 1);
+//        randomizedQuickSort(a, m + 1, r);
+
+    }
+
+    public void myQuickSort(long[] elements, int left, int right) {
+        if (left >= right) {
+            return;
+        }
+
+        int partition = partition(elements, left, right);
+
+        myQuickSort(elements, left, partition - 1);
+        myQuickSort(elements, partition + 1, right);
+    }
+
+    private int partition(long[] elements, int left, int right) {
+        long partition = elements[left];
+        int partitionIdx = left;
+
+        for (int x = left + 1; x <= right; ++x) {
+            if (partition > elements[x]) {
+                partitionIdx++;
+                swap(elements, partitionIdx, x);
+            }
+        }
+
+        swap(elements, left, partitionIdx);
+
+        return partitionIdx;
     }
 
     public static void main(String[] args) {

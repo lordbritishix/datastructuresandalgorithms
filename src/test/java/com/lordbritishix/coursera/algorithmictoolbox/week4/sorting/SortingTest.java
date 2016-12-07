@@ -27,17 +27,26 @@ public class SortingTest {
         return Arrays.asList(
                 new Object[][]{
                         {new long[]{1L, 2L, 3L}, new long[]{1L, 2L, 3L}},
-                        {new long[]{3L, 2L, 1L}, new long[]{1L, 2L, 3L}},
+                        {new long[]{8L, 3L, 2L, 1L, 4L, 7L}, new long[]{1L, 2L, 3L, 4L, 7L, 8L}},
                         {new long[]{3L}, new long[]{3L}},
                         {new long[]{4L, 1L, 2L, 3L}, new long[]{1L, 2L, 3L, 4L}},
                         {new long[]{2L, 2L, 2L}, new long[]{2L, 2L, 2L}},
+                        {new long[]{31L, 1L, 22L}, new long[]{1L, 22L, 31L}},
+
                 }
         );
     }
 
     @Test
-    public void sortReturnsSortedElements() {
+    public void sortUsingMyVersionReturnsSortedElements() {
+        fixture.myQuickSort(elements, 0, elements.length - 1);
+        assertArrayEquals(sortedElements, elements);
+    }
+
+    @Test
+    public void sortUsingPartition3ReturnsSortedElements() {
         fixture.randomizedQuickSort(elements, 0, elements.length - 1);
         assertArrayEquals(sortedElements, elements);
     }
+
 }
