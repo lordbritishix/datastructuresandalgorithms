@@ -12,6 +12,8 @@ import java.util.Scanner;
  *       c[x / 3] + 1,   //if x % 3 == 0
  *       c[x - 1] + 1
  *    )
+ *
+ * Another coin-changing problem reference which can help in solving this problem: https://youtu.be/NJuKJ8sasGk
  */
 public class PrimitiveCalculator {
     private static final int INFINITY = Integer.MAX_VALUE;

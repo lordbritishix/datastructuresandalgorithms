@@ -9,6 +9,10 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 public class MajorityElement {
+    /**
+     * This divide and conquer version is a bit convoluted and hard to understand. I prefer the iterative version.
+     * Basically, the majority element is computed for each subarray
+     */
     public long getMajorityElement(long[] a, int left, int right) {
         if (a.length <= 0) {
             return -1;
@@ -21,7 +25,6 @@ public class MajorityElement {
 
         int mid = left + (right - left) / 2;
 
-        //write your code here
         long leftMajority = getMajorityElement(a, left, mid);
         long rightMajority = getMajorityElement(a, mid + 1, right);
 
@@ -36,7 +39,8 @@ public class MajorityElement {
         return -1;
     }
 
-    boolean isMajorityOnSubarray(long[] a, int left, int right, long val) {
+    // checks if val is a majority element of the subarray a - which is defined by left and right idx
+    private boolean isMajorityOnSubarray(long[] a, int left, int right, long val) {
         int count = 0;
         for (int x = left; x <= right; ++x) {
             if (val == a[x]) {
